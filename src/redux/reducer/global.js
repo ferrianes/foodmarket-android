@@ -1,6 +1,7 @@
 const initGlobalState = {
   isError: false,
   isLoading: false,
+  isBottomSheetOpen: false,
   message: 'Error',
 };
 
@@ -17,6 +18,13 @@ export const globalReducer = (state = initGlobalState, action) => {
     return {
       ...state,
       isLoading: action.value,
+    };
+  }
+
+  if (action.type === 'SET_BOTTOM_SHEET') {
+    return {
+      ...state,
+      isBottomSheetOpen: action.value,
     };
   }
 

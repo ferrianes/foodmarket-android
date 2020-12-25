@@ -11,6 +11,9 @@ import IcStarOff from './ic-star-off.svg';
 import IcMin from './ic-button-min.svg';
 import IcPlus from './ic-button-plus.svg';
 import IcNext from './ic-next.svg';
+import IcCamera from './ic-camera.svg';
+import IcGallery from './ic-gallery.svg';
+import IcClose from './ic-close.svg';
 
 export {
   IcBack,
@@ -26,4 +29,7 @@ export {
   IcMin,
   IcPlus,
   IcNext,
+  IcCamera,
+  IcGallery,
+  IcClose,
 };
