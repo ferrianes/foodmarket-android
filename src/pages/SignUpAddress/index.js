@@ -1,9 +1,9 @@
-import axios from 'axios';
 import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Header, Select, TextInput} from '../../components';
-import {apiUrl, Toast, useForm} from '../../utils';
+import {signInAction} from '../../redux/action';
+import {useForm} from '../../utils';
 
 const SignUpAddress = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -22,35 +22,7 @@ const SignUpAddress = ({navigation}) => {
       ...registerReducer,
     };
 
-    try {
-      dispatch({type: 'SET_LOADING', value: true});
-      axios
-        .post(`${apiUrl}register`, data)
-        .then(async (res) => {
-          if (res.status === 200) {
-            if (uploadPhotoReducer.isUpload) {
-              const photoForUpload = new FormData();
-              photoForUpload.append('file', uploadPhotoReducer);
-              await axios.post(`${apiUrl}user/photo`, photoForUpload, {
-                headers: {
-                  Authorization: `${res.data.data.token_type} ${res.data.data.access_token}`,
-                  'Content-Type': 'multipart/form-data',
-                },
-              });
-            }
-            dispatch({type: 'SET_LOADING', value: false});
-            Toast('Yeay! your account has been registered', 'success');
-            navigation.replace('SuccessSignUp');
-          }
-        })
-        .catch((e) => {
-          dispatch({type: 'SET_LOADING', value: false});
-          Toast(e?.response?.data?.data?.message, 'danger');
-        });
-    } catch (e) {
-      dispatch({type: 'SET_LOADING', value: false});
-      Toast('Oops... Something went wrong', 'danger');
-    }
+    dispatch(signInAction(data, uploadPhotoReducer, navigation));
   };
 
   return (

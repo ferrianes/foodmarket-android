@@ -9,11 +9,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import {BottomSheet, Button, Header, TextInput} from '../../components';
-import {emailIsValid, Toast, useForm} from '../../utils';
 import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
+import {useDispatch, useSelector} from 'react-redux';
 import {IcCamera, IcGallery} from '../../assets';
+import {BottomSheet, Button, Header, TextInput} from '../../components';
+import {setBottomSheet, setUploadPhoto} from '../../redux/action';
+import {Toast, useForm} from '../../utils';
 
 const SignUp = ({navigation}) => {
   const [form, setForm] = useForm({
@@ -21,10 +22,6 @@ const SignUp = ({navigation}) => {
     email: '',
     password: '',
   });
-
-  const [nameError, setNameError] = useState(false);
-  const [emailError, setEmailError] = useState(false);
-  const [passwordError, setPasswordError] = useState(false);
   const [photo, setPhoto] = useState('');
 
   const dispatch = useDispatch();
@@ -59,17 +56,17 @@ const SignUp = ({navigation}) => {
                 name: response.fileName,
               };
 
-              dispatch({type: 'SET_BOTTOM_SHEET', value: false});
-              dispatch({type: 'SET_PHOTO', value: dataImage});
+              dispatch(setBottomSheet(false));
+              dispatch(setUploadPhoto(dataImage));
             }
           },
         );
       } else {
-        dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+        dispatch(setBottomSheet(false));
         Toast('Oopss... Please allow this app to using camera', 'danger');
       }
     } catch (err) {
-      dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+      dispatch(setBottomSheet(false));
       Toast('Oopss... Something went wrong', 'danger');
     }
   };
@@ -91,8 +88,8 @@ const SignUp = ({navigation}) => {
             name: response.fileName,
           };
 
-          dispatch({type: 'SET_BOTTOM_SHEET', value: false});
-          dispatch({type: 'SET_PHOTO', value: dataImage});
+          dispatch(setBottomSheet(false));
+          dispatch(setUploadPhoto(dataImage));
         }
       },
     );
@@ -132,7 +129,6 @@ const SignUp = ({navigation}) => {
             style={styles.textInput}
             value={form.name}
             onChangeText={(value) => setForm('name', value)}
-            errorMessage={nameError}
           />
           <TextInput
             label="Email Address"
@@ -140,7 +136,6 @@ const SignUp = ({navigation}) => {
             style={styles.textInput}
             value={form.email}
             onChangeText={(value) => setForm('email', value)}
-            errorMessage={emailError}
           />
           <TextInput
             label="Password"
@@ -148,7 +143,6 @@ const SignUp = ({navigation}) => {
             style={styles.textInputPassword}
             value={form.password}
             onChangeText={(value) => setForm('password', value)}
-            errorMessage={passwordError}
             secureTextEntry
           />
           <Button
