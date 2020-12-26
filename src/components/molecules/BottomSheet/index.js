@@ -19,21 +19,16 @@ const BottomSheet = ({children}) => {
   const dispatch = useDispatch();
 
   const closeBottomSheet = () => {
-    Animated.timing(opacity, {
-      toValue: 0,
-      duration: 500,
-      useNativeDriver: true,
-    }).start();
-
     Animated.spring(translateY, {
       toValue: 500,
       bounciness: 0,
       useNativeDriver: true,
     }).start();
 
-    setTimeout(() => {
-      dispatch({type: 'SET_BOTTOM_SHEET', value: false});
-    }, 200);
+    Animated.timing(opacity, {
+      toValue: 0,
+      useNativeDriver: true,
+    }).start(() => dispatch({type: 'SET_BOTTOM_SHEET', value: false}));
   };
 
   useFocusEffect(
@@ -60,7 +55,6 @@ const BottomSheet = ({children}) => {
 
     Animated.timing(opacity, {
       toValue: 1,
-      duration: 500,
       useNativeDriver: true,
     }).start();
   }, [translateY, opacity]);
