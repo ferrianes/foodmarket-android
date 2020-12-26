@@ -14,7 +14,7 @@ const SignUpAddress = ({navigation}) => {
   });
 
   const dispatch = useDispatch();
-  const registerReducer = useSelector((state) => state.registerReducer);
+  const {registerReducer, uploadPhotoReducer} = useSelector((state) => state);
 
   const onSubmit = () => {
     const data = {
@@ -26,8 +26,18 @@ const SignUpAddress = ({navigation}) => {
       dispatch({type: 'SET_LOADING', value: true});
       axios
         .post(`${apiUrl}register`, data)
-        .then((res) => {
+        .then(async (res) => {
           if (res.status === 200) {
+            if (uploadPhotoReducer.isUpload) {
+              const photoForUpload = new FormData();
+              photoForUpload.append('file', uploadPhotoReducer);
+              await axios.post(`${apiUrl}user/photo`, photoForUpload, {
+                headers: {
+                  Authorization: `${res.data.data.token_type} ${res.data.data.access_token}`,
+                  'Content-Type': 'multipart/form-data',
+                },
+              });
+            }
             dispatch({type: 'SET_LOADING', value: false});
             Toast('Yeay! your account has been registered', 'success');
             navigation.replace('SuccessSignUp');

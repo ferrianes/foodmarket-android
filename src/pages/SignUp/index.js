@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {
   Image,
+  PermissionsAndroid,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -29,21 +30,48 @@ const SignUp = ({navigation}) => {
   const dispatch = useDispatch();
   const {isBottomSheetOpen} = useSelector((state) => state.globalReducer);
 
-  const onPressCamera = () => {
-    launchCamera(
-      {
-        mediaType: 'photo',
-        saveToPhotos: true,
-        maxHeight: 200,
-        maxWidth: 200,
-      },
-      (response) => {
-        if (!response.didCancel) {
-          setPhoto({uri: response.uri});
-          dispatch({type: 'SET_BOTTOM_SHEET', value: false});
-        }
-      },
-    );
+  const onPressCamera = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.CAMERA,
+        {
+          title: 'Food Market App Camera Permission',
+          message: 'Food Market App needs access to your camera',
+          buttonPositive: 'OK',
+        },
+      );
+
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        launchCamera(
+          {
+            mediaType: 'photo',
+            saveToPhotos: true,
+            maxHeight: 200,
+            maxWidth: 200,
+          },
+          (response) => {
+            if (!response.didCancel) {
+              setPhoto({uri: response.uri});
+
+              const dataImage = {
+                type: response.type,
+                uri: response.uri,
+                name: response.fileName,
+              };
+
+              dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+              dispatch({type: 'SET_PHOTO', value: dataImage});
+            }
+          },
+        );
+      } else {
+        dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+        Toast('Oopss... Please allow this app to using camera', 'danger');
+      }
+    } catch (err) {
+      dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+      Toast('Oopss... Something went wrong', 'danger');
+    }
   };
 
   const onPressGallery = () => {
@@ -56,66 +84,23 @@ const SignUp = ({navigation}) => {
       (response) => {
         if (!response.didCancel) {
           setPhoto({uri: response.uri});
+
+          const dataImage = {
+            type: response.type,
+            uri: response.uri,
+            name: response.fileName,
+          };
+
           dispatch({type: 'SET_BOTTOM_SHEET', value: false});
+          dispatch({type: 'SET_PHOTO', value: dataImage});
         }
       },
     );
   };
 
   const onSubmit = () => {
-    if (validate()) {
-      dispatch({type: 'SET_REGISTER', value: form});
-      navigation.navigate('SignUpAddress');
-    }
-  };
-
-  const validate = () => {
-    let isValid = true;
-
-    if (form.name.length === 0) {
-      setNameError('The name field is required.');
-      isValid = false;
-    } else {
-      if (form.name.length > 20) {
-        setNameError('The name field cannot exceed 20 characters in length.');
-        isValid = false;
-      } else {
-        setNameError(false);
-      }
-    }
-
-    if (form.email.length === 0) {
-      setEmailError('The Email field is required.');
-      isValid = false;
-    } else {
-      if (!emailIsValid(form.email)) {
-        setEmailError('The email field must contain a valid email address.');
-        isValid = false;
-      } else {
-        setEmailError(false);
-      }
-    }
-
-    if (form.password.length === 0) {
-      setPasswordError('The Password field is required.');
-      isValid = false;
-    } else {
-      if (form.password.length < 8) {
-        setPasswordError(
-          'The Password field must be at least 8 characters in length.',
-        );
-        isValid = false;
-      } else {
-        setPasswordError(false);
-      }
-    }
-
-    if (isValid) {
-      return true;
-    } else {
-      Toast('Oops... Something went wrong', 'danger');
-      return false;
-    }
+    dispatch({type: 'SET_REGISTER', value: form});
+    navigation.navigate('SignUpAddress');
   };
 
   return (
