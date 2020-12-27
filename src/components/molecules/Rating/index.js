@@ -2,17 +2,24 @@ import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {IcStarOff, IcStarOn} from '../../../assets';
 
-const Rating = () => {
+const Rating = ({rating}) => {
+  const renderStars = () => {
+    let stars = [];
+    for (let i = 0; i < 5; i++) {
+      if (i < Math.floor(rating)) {
+        stars.push(<IcStarOn key={i} />);
+      } else {
+        stars.push(<IcStarOff key={i} />);
+      }
+    }
+
+    return stars;
+  };
+
   return (
     <View style={styles.ratingContainer}>
-      <View style={styles.starContainer}>
-        <IcStarOn height={20} width={20} />
-        <IcStarOn height={20} width={20} />
-        <IcStarOn height={20} width={20} />
-        <IcStarOn height={20} width={20} />
-        <IcStarOff height={20} width={20} />
-      </View>
-      <Text style={styles.ratingText}>4.5</Text>
+      <View style={styles.starContainer}>{renderStars()}</View>
+      <Text style={styles.ratingText}>{rating}</Text>
     </View>
   );
 };
