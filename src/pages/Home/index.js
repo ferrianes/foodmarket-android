@@ -24,9 +24,9 @@ const Home = () => {
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.foodContainer}>
-              {food.map((foodItem, index) => (
+              {food.map((foodItem) => (
                 <FoodCard
-                  key={index}
+                  key={foodItem.id}
                   style={styles.card}
                   image={{uri: foodItem.picture_path}}
                   name={foodItem.name}

@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import {IcStarOff, IcStarOn} from '../../../assets';
+import {toFixedNumberFormatter} from '../../../utils';
 
 const Rating = ({rating}) => {
   const renderStars = () => {
@@ -19,7 +20,7 @@ const Rating = ({rating}) => {
   return (
     <View style={styles.ratingContainer}>
       <View style={styles.starContainer}>{renderStars()}</View>
-      <Text style={styles.ratingText}>{rating}</Text>
+      <Text style={styles.ratingText}>{toFixedNumberFormatter(rating)}</Text>
     </View>
   );
 };
@@ -34,6 +35,7 @@ const styles = StyleSheet.create({
   starContainer: {
     flexDirection: 'row',
     marginRight: 4,
+    paddingTop: 2,
   },
   ratingText: {
     fontFamily: 'Poppins-Regular',
