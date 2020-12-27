@@ -1,4 +1,3 @@
-export const apiUrl = 'http://192.168.0.7:8000/api';
 export const currencyFormatter = new Intl.NumberFormat('id-ID', {
   style: 'currency',
   currency: 'IDR',

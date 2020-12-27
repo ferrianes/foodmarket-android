@@ -5,9 +5,10 @@ import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import ItemListMenu from '../ItemListMenu';
-import {apiUrl, getData, Toast} from '../../../utils';
+import {getData, Toast} from '../../../utils';
 import {useDispatch} from 'react-redux';
 import {setLoading} from '../../../redux/action/global';
+import {apiUrl} from '../../../config';
 
 const renderTabBar = (props) => (
   <TabBar
@@ -32,7 +33,7 @@ const Account = () => {
       dispatch(setLoading(true));
       console.log(res);
       axios
-        .post(`${apiUrl}/logout`, {}, {headers: {Authorization: res.value}})
+        .post(apiUrl('logout'), {}, {headers: {Authorization: res.value}})
         .then((resSignOut) => {
           console.log(resSignOut);
           AsyncStorage.multiRemove(['userProfile', 'token']).then(

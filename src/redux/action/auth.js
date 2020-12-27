@@ -1,5 +1,6 @@
 import axios from 'axios';
-import {apiUrl, getData, storeData, Toast} from '../../utils';
+import {apiUrl} from '../../config';
+import {getData, storeData, Toast} from '../../utils';
 import {setLoading} from './global';
 
 export const signUpAction = (data, uploadPhotoReducer, navigation) => (
@@ -8,7 +9,7 @@ export const signUpAction = (data, uploadPhotoReducer, navigation) => (
   try {
     dispatch(setLoading(true));
     axios
-      .post(`${apiUrl}/register`, data)
+      .post(apiUrl('register'), data)
       .then(async (res) => {
         // set store user
         const user = res.data.data.user;
@@ -22,7 +23,7 @@ export const signUpAction = (data, uploadPhotoReducer, navigation) => (
             const photoForUpload = new FormData();
             photoForUpload.append('file', uploadPhotoReducer);
             await axios
-              .post(`${apiUrl}/user/photo`, photoForUpload, {
+              .post(apiUrl('user/photo'), photoForUpload, {
                 headers: {
                   Authorization: token,
                   'Content-Type': 'multipart/form-data',
@@ -56,7 +57,7 @@ export const signInAction = (form, navigation) => (dispatch) => {
   dispatch(setLoading(true));
   try {
     axios
-      .post(`${apiUrl}/login`, form)
+      .post(apiUrl('login'), form)
       .then((res) => {
         // store token
         const token = `${res.data.data.token_type} ${res.data.data.access_token}`;
