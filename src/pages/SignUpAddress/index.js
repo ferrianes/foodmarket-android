@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import {Button, Header, Select, TextInput} from '../../components';
-import {signInAction} from '../../redux/action';
+import {signUpAction} from '../../redux/action';
 import {useForm} from '../../utils';
 
 const SignUpAddress = ({navigation}) => {
@@ -22,7 +22,7 @@ const SignUpAddress = ({navigation}) => {
       ...registerReducer,
     };
 
-    dispatch(signInAction(data, uploadPhotoReducer, navigation));
+    dispatch(signUpAction(data, uploadPhotoReducer, navigation));
   };
 
   return (

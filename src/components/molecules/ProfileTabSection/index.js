@@ -1,8 +1,13 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import axios from 'axios';
 import React from 'react';
 import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import ItemListMenu from '../ItemListMenu';
+import {apiUrl, getData, Toast} from '../../../utils';
+import {useDispatch} from 'react-redux';
+import {setLoading} from '../../../redux/action/global';
 
 const renderTabBar = (props) => (
   <TabBar
@@ -19,13 +24,44 @@ const renderTabBar = (props) => (
 );
 
 const Account = () => {
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+
+  const signOut = () => {
+    getData('token').then((res) => {
+      dispatch(setLoading(true));
+      console.log(res);
+      axios
+        .post(`${apiUrl}/logout`, {}, {headers: {Authorization: res.value}})
+        .then((resSignOut) => {
+          console.log(resSignOut);
+          AsyncStorage.multiRemove(['userProfile', 'token']).then(
+            (resAstorage) => {
+              console.log(resAstorage);
+              dispatch(setLoading(false));
+              Toast('Your account successfully signed out', 'success');
+              navigation.reset({index: 0, routes: [{name: 'SignIn'}]});
+            },
+          );
+        })
+        .catch((e) => {
+          dispatch(setLoading(false));
+          Toast('Oopss... Something went wrong', 'danger');
+        });
+    });
+  };
+
   return (
     <View style={tabItemStyles.container}>
       <ItemListMenu style={tabItemStyles.itemList} text="Edit Profile" />
       <ItemListMenu style={tabItemStyles.itemList} text="Home Address" />
       <ItemListMenu style={tabItemStyles.itemList} text="Security" />
       <ItemListMenu style={tabItemStyles.itemList} text="Payment" />
+      <ItemListMenu
+        style={tabItemStyles.itemList}
+        text="Sign Out"
+        onPress={signOut}
+      />
     </View>
   );
 };

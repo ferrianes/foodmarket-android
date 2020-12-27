@@ -1,26 +1,19 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import {useDispatch, useSelector} from 'react-redux';
 import {Button, Header, TextInput} from '../../components';
-import {API_URL, useForm} from '../../utils';
-import Axios from 'axios';
+import {signInAction} from '../../redux/action/auth';
+import {useForm} from '../../utils';
 
 const SignIn = ({navigation}) => {
+  const {isError, messageError} = useSelector((state) => state.globalReducer);
+
   const [form, setForm] = useForm({
     email: '',
     password: '',
   });
 
-  const onSubmit = () => {
-    console.log(form);
-
-    try {
-      Axios.post(`${API_URL}login`, form)
-        .then((res) => console.log('success', res))
-        .catch((e) => console.log('error', e));
-    } catch (e) {
-      console.log('error', e);
-    }
-  };
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.page}>
@@ -32,6 +25,7 @@ const SignIn = ({navigation}) => {
           style={styles.textInputEmail}
           value={form.email}
           onChangeText={(value) => setForm('email', value)}
+          errorMessage={messageError.email?.[0]}
         />
         <TextInput
           label="Password"
@@ -40,13 +34,14 @@ const SignIn = ({navigation}) => {
           value={form.password}
           onChangeText={(value) => setForm('password', value)}
           secureTextEntry
+          errorMessage={messageError.password?.[0]}
         />
         <Button
           native
           style={styles.buttonSignIn}
           variant="primary"
           title="Sign In"
-          onPress={() => onSubmit()}
+          onPress={() => dispatch(signInAction(form, navigation))}
         />
         <Button
           native

@@ -1,8 +1,8 @@
 const initGlobalState = {
-  isError: false,
   isLoading: false,
   isBottomSheetOpen: false,
-  message: 'Error',
+  isError: false,
+  messageError: '',
 };
 
 export const globalReducer = (state = initGlobalState, action) => {
@@ -10,7 +10,7 @@ export const globalReducer = (state = initGlobalState, action) => {
     return {
       ...state,
       isError: action.value.isError,
-      message: action.value.message,
+      messageError: action.value.messageError,
     };
   }
 

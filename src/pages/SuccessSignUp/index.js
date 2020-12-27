@@ -16,7 +16,9 @@ const SuccessSignUp = ({navigation}) => {
         native
         variant="primary"
         title="Find Food"
-        onPress={() => navigation.replace('MainApp')}
+        onPress={() =>
+          navigation.reset({index: 0, routes: [{name: 'MainApp'}]})
+        }
       />
     </View>
   );
