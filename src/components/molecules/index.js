@@ -13,6 +13,7 @@ import ProfileTabSection from './ProfileTabSection';
 import ItemListMenu from './ItemListMenu';
 import Loading from './Loading';
 import BottomSheet from './BottomSheet';
+import FoodCardLoading from './FoodCardLoading';
 
 export {
   Header,
@@ -30,4 +31,5 @@ export {
   ItemListMenu,
   Loading,
   BottomSheet,
+  FoodCardLoading,
 };

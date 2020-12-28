@@ -4,6 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../assets';
 import {
   FoodCard,
+  FoodCardLoading,
   HomeProfile,
   HomeTabSection,
 } from '../../components/molecules';
@@ -12,6 +13,8 @@ import {getFoodData} from '../../redux/action';
 const Home = () => {
   const dispatch = useDispatch();
   const {food} = useSelector((state) => state.homeReducer);
+
+  const {isFoodCardLoading} = useSelector((state) => state.homeReducer);
 
   useEffect(() => {
     dispatch(getFoodData());
@@ -24,15 +27,19 @@ const Home = () => {
         <View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.foodContainer}>
-              {food.map((foodItem) => (
-                <FoodCard
-                  key={foodItem.id}
-                  style={styles.card}
-                  image={{uri: foodItem.picture_path}}
-                  name={foodItem.name}
-                  rating={foodItem.rate}
-                />
-              ))}
+              {isFoodCardLoading ? (
+                <FoodCardLoading style={styles.card} total={4} />
+              ) : (
+                food.map((foodItem) => (
+                  <FoodCard
+                    key={foodItem.id}
+                    style={styles.card}
+                    image={{uri: foodItem.picture_path}}
+                    name={foodItem.name}
+                    rating={foodItem.rate}
+                  />
+                ))
+              )}
             </View>
           </ScrollView>
         </View>

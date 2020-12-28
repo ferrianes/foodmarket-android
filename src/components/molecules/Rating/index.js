@@ -4,22 +4,17 @@ import {IcStarOff, IcStarOn} from '../../../assets';
 import {toFixedNumberFormatter} from '../../../utils';
 
 const Rating = ({rating}) => {
-  const renderStars = () => {
-    let stars = [];
-    for (let i = 0; i < 5; i++) {
-      if (i < Math.floor(rating)) {
-        stars.push(<IcStarOn key={i} />);
-      } else {
-        stars.push(<IcStarOff key={i} />);
-      }
-    }
-
-    return stars;
-  };
-
   return (
     <View style={styles.ratingContainer}>
-      <View style={styles.starContainer}>{renderStars()}</View>
+      <View style={styles.starContainer}>
+        {[...Array(5)].map((value, index) => {
+          if (index < Math.floor(rating)) {
+            return <IcStarOn key={index} />;
+          } else {
+            return <IcStarOff key={index} />;
+          }
+        })}
+      </View>
       <Text style={styles.ratingText}>{toFixedNumberFormatter(rating)}</Text>
     </View>
   );

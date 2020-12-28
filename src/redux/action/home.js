@@ -1,8 +1,9 @@
 import axios from 'axios';
 import {apiUrl} from '../../config';
 
-export const getFoodData = (type) => (dispatch) => {
-  axios.get(apiUrl(type ? `food?types=${type}` : 'food')).then((res) => {
+export const getFoodData = (type) => async (dispatch) => {
+  dispatch({type: 'SET_FOOD_CARD_LOADING', value: true});
+  await axios.get(apiUrl(type ? `food?types=${type}` : 'food')).then((res) => {
     console.log(res.data.data.data);
     if (type === 'new_food') {
       dispatch({type: 'SET_FOOD_NEW_TASTE', value: res.data.data.data});
@@ -13,5 +14,6 @@ export const getFoodData = (type) => (dispatch) => {
     } else {
       dispatch({type: 'SET_FOOD', value: res.data.data.data});
     }
+    dispatch({type: 'SET_FOOD_CARD_LOADING', value: false});
   });
 };
