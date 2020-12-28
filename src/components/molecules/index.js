@@ -14,6 +14,7 @@ import ItemListMenu from './ItemListMenu';
 import Loading from './Loading';
 import BottomSheet from './BottomSheet';
 import FoodCardLoading from './FoodCardLoading';
+import ItemListFoodLoading from './ItemListFoodLoading';
 
 export {
   Header,
@@ -32,4 +33,5 @@ export {
   Loading,
   BottomSheet,
   FoodCardLoading,
+  ItemListFoodLoading,
 };

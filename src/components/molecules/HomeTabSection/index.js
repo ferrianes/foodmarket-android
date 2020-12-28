@@ -5,6 +5,7 @@ import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {getFoodData} from '../../../redux/action';
 import ItemListFood from '../ItemListFood';
+import {ItemListFoodLoading} from '..';
 
 const renderTabBar = (props) => (
   <TabBar
@@ -23,7 +24,9 @@ const renderTabBar = (props) => (
 const NewTaste = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {foodNewTaste} = useSelector((state) => state.homeReducer);
+  const {foodNewTaste, isItemListFoodNewTasteLoading} = useSelector(
+    (state) => state.homeReducer,
+  );
 
   useEffect(() => {
     dispatch(getFoodData('new_food'));
@@ -31,17 +34,21 @@ const NewTaste = () => {
 
   return (
     <View style={tabItemStyles.container}>
-      {foodNewTaste.map((foodNewTasteItem) => (
-        <ItemListFood
-          key={foodNewTasteItem.id}
-          title={foodNewTasteItem.name}
-          price={foodNewTasteItem.price}
-          rating={foodNewTasteItem.rate}
-          style={tabItemStyles.itemList}
-          image={{uri: foodNewTasteItem.picture_path}}
-          onPress={() => navigation.navigate('FoodDetail')}
-        />
-      ))}
+      {isItemListFoodNewTasteLoading ? (
+        <ItemListFoodLoading style={tabItemStyles.itemList} total={3} />
+      ) : (
+        foodNewTaste.map((foodNewTasteItem) => (
+          <ItemListFood
+            key={foodNewTasteItem.id}
+            title={foodNewTasteItem.name}
+            price={foodNewTasteItem.price}
+            rating={foodNewTasteItem.rate}
+            style={tabItemStyles.itemList}
+            image={{uri: foodNewTasteItem.picture_path}}
+            onPress={() => navigation.navigate('FoodDetail')}
+          />
+        ))
+      )}
     </View>
   );
 };
@@ -49,7 +56,9 @@ const NewTaste = () => {
 const Popular = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {foodPopular} = useSelector((state) => state.homeReducer);
+  const {foodPopular, isItemListFoodPopularLoading} = useSelector(
+    (state) => state.homeReducer,
+  );
 
   useEffect(() => {
     dispatch(getFoodData('popular'));
@@ -57,17 +66,21 @@ const Popular = () => {
 
   return (
     <View style={tabItemStyles.container}>
-      {foodPopular.map((foodPopularItem) => (
-        <ItemListFood
-          key={foodPopularItem.id}
-          title={foodPopularItem.name}
-          price={foodPopularItem.price}
-          rating={foodPopularItem.rate}
-          style={tabItemStyles.itemList}
-          image={{uri: foodPopularItem.picture_path}}
-          onPress={() => navigation.navigate('FoodDetail')}
-        />
-      ))}
+      {isItemListFoodPopularLoading ? (
+        <ItemListFoodLoading style={tabItemStyles.itemList} total={3} />
+      ) : (
+        foodPopular.map((foodPopularItem) => (
+          <ItemListFood
+            key={foodPopularItem.id}
+            title={foodPopularItem.name}
+            price={foodPopularItem.price}
+            rating={foodPopularItem.rate}
+            style={tabItemStyles.itemList}
+            image={{uri: foodPopularItem.picture_path}}
+            onPress={() => navigation.navigate('FoodDetail')}
+          />
+        ))
+      )}
     </View>
   );
 };
@@ -75,7 +88,9 @@ const Popular = () => {
 const Recommended = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  const {foodRecommended} = useSelector((state) => state.homeReducer);
+  const {foodRecommended, isItemListFoodRecommendedLoading} = useSelector(
+    (state) => state.homeReducer,
+  );
 
   useEffect(() => {
     dispatch(getFoodData('recommended'));
@@ -83,17 +98,21 @@ const Recommended = () => {
 
   return (
     <View style={tabItemStyles.container}>
-      {foodRecommended.map((foodRecommendedItem) => (
-        <ItemListFood
-          key={foodRecommendedItem.id}
-          title={foodRecommendedItem.name}
-          price={foodRecommendedItem.price}
-          rating={foodRecommendedItem.rate}
-          style={tabItemStyles.itemList}
-          image={{uri: foodRecommendedItem.picture_path}}
-          onPress={() => navigation.navigate('FoodDetail')}
-        />
-      ))}
+      {isItemListFoodRecommendedLoading ? (
+        <ItemListFoodLoading style={tabItemStyles.itemList} total={3} />
+      ) : (
+        foodRecommended.map((foodRecommendedItem) => (
+          <ItemListFood
+            key={foodRecommendedItem.id}
+            title={foodRecommendedItem.name}
+            price={foodRecommendedItem.price}
+            rating={foodRecommendedItem.rate}
+            style={tabItemStyles.itemList}
+            image={{uri: foodRecommendedItem.picture_path}}
+            onPress={() => navigation.navigate('FoodDetail')}
+          />
+        ))
+      )}
     </View>
   );
 };
