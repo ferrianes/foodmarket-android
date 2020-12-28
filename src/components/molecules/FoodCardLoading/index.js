@@ -7,23 +7,21 @@ import {
   Fade,
 } from 'rn-placeholder';
 
-const FoodCardLoading = ({style, total = 1}) => {
-  return (
-    <>
-      {[...Array(total)].map((value, index) => (
-        <View style={{...styles.container, ...style}} key={index}>
-          <Placeholder Animation={Fade}>
-            <PlaceholderMedia style={styles.image} />
-            <View style={styles.content}>
-              <PlaceholderLine width={100} height={16} />
-              <PlaceholderLine width={50} height={16} />
-            </View>
-          </Placeholder>
-        </View>
-      ))}
-    </>
-  );
-};
+const FoodCardLoading = ({style, total = 1}) => (
+  <>
+    {[...Array(total)].map((value, index) => (
+      <View style={{...styles.container, ...style}} key={index}>
+        <Placeholder Animation={Fade}>
+          <PlaceholderMedia style={styles.image} />
+          <View style={styles.content}>
+            <PlaceholderLine width={100} height={16} />
+            <PlaceholderLine width={50} height={16} />
+          </View>
+        </Placeholder>
+      </View>
+    ))}
+  </>
+);
 
 export default FoodCardLoading;
 

@@ -1,7 +1,6 @@
 import React, {useEffect} from 'react';
 import {ScrollView, StyleSheet, View} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {FoodDummy1, FoodDummy2, FoodDummy3, FoodDummy4} from '../../assets';
 import {
   FoodCard,
   FoodCardLoading,
@@ -28,7 +27,7 @@ const Home = () => {
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             <View style={styles.foodContainer}>
               {isFoodCardLoading ? (
-                <FoodCardLoading style={styles.card} total={4} />
+                <FoodCardLoading style={styles.card} total={3} />
               ) : (
                 food.map((foodItem) => (
                   <FoodCard
