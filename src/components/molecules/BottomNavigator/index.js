@@ -1,5 +1,11 @@
 import React from 'react';
-import {Pressable, StyleSheet, View} from 'react-native';
+import {
+  StyleSheet,
+  ToastAndroid,
+  TouchableNativeFeedback,
+  Vibration,
+  View,
+} from 'react-native';
 import {
   IcHomeOff,
   IcHomeOn,
@@ -59,24 +65,25 @@ const BottomNavigator = ({state, descriptors, navigation}) => {
             type: 'tabLongPress',
             target: route.key,
           });
+
+          Vibration.vibrate(200);
         };
 
         return (
-          <Pressable
+          <TouchableNativeFeedback
+            background={TouchableNativeFeedback.Ripple('papayawhip', true)}
             key={index}
-            style={styles.button}
-            android_ripple={{
-              color: 'papayawhip',
-              borderless: true,
-            }}
             accessibilityRole="button"
             accessibilityState={isFocused ? {selected: true} : {}}
             accessibilityLabel={options.tabBarAccessibilityLabel}
             testID={options.tabBarTestID}
             onPress={onPress}
+            delayLongPress={0}
             onLongPress={onLongPress}>
-            <Icon label={label} isFocused={isFocused} />
-          </Pressable>
+            <View style={styles.button}>
+              <Icon label={label} isFocused={isFocused} />
+            </View>
+          </TouchableNativeFeedback>
         );
       })}
     </View>
@@ -90,11 +97,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     backgroundColor: '#fff',
     height: 60,
-    // paddingTop: 15,
-    // paddingBottom: 13,
   },
   button: {
-    width: '33.333333%',
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
