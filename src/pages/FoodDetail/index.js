@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -9,6 +9,7 @@ import {
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
 import {IcBackWhite} from '../../assets';
 import {Button, Counter, Rating, TextNumber} from '../../components';
+import {getData} from '../../utils';
 
 const FoodDetail = ({navigation, route}) => {
   const {
@@ -20,10 +21,38 @@ const FoodDetail = ({navigation, route}) => {
     price,
   } = route.params;
   const [totalItem, setTotalItem] = useState(1);
+  const [userProfile, setUserProfile] = useState({});
+
+  useEffect(() => {
+    getData('userProfile').then((res) => setUserProfile(res));
+  }, []);
 
   const onCounterChange = (value) => {
-    console.log({counter: value});
     setTotalItem(value);
+  };
+
+  const onOrder = () => {
+    const totalPrice = totalItem * price;
+    const driver = 50000;
+    const tax = (10 / 100) * totalPrice;
+    const total = totalPrice + driver + tax;
+    const data = {
+      item: {
+        name,
+        picture_path,
+        price,
+      },
+      transaction: {
+        totalItem,
+        totalPrice,
+        driver,
+        tax,
+        total,
+      },
+      userProfile,
+    };
+
+    navigation.navigate('OrderSummary', data);
   };
 
   return (
@@ -57,11 +86,7 @@ const FoodDetail = ({navigation, route}) => {
           <TextNumber value={totalItem * price} style={styles.priceTotal} />
         </View>
         <View style={styles.buttonPriceContainer}>
-          <Button
-            native
-            title="Order Now"
-            onPress={() => navigation.navigate('OrderSummary')}
-          />
+          <Button native title="Order Now" onPress={onOrder} />
         </View>
       </View>
     </View>

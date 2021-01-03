@@ -3,9 +3,10 @@ import {ScrollView, StyleSheet, Text, View} from 'react-native';
 import {FoodDummy1} from '../../assets';
 import {Button, Header, ItemListFood, ItemValue} from '../../components';
 
-const OrderSummary = ({navigation}) => {
+const OrderSummary = ({navigation, route}) => {
   const [elevation, setElevation] = useState(0);
   const [borderTopWidth, setBorderTopWidth] = useState(0);
+  const {item, transaction, userProfile} = route.params;
 
   const handleScroll = (e) => {
     if (e.nativeEvent.contentOffset.y === 0) {
@@ -31,32 +32,36 @@ const OrderSummary = ({navigation}) => {
             Item Ordered
           </Text>
           <ItemListFood
-            title="Soup Bumil"
-            price="200.000"
+            title={item.name}
+            price={item.price}
             type="order-summary"
-            item={14}
-            image={FoodDummy1}
-            items={14}
+            item={transaction.totalItem}
+            image={{uri: item.picture_path}}
           />
           <Text style={{...styles.label, ...{marginTop: 8}}}>
             Details Transaction
           </Text>
-          <ItemValue label="Cherry Healthy" value="IDR 18.390.000" />
-          <ItemValue label="Driver" value="IDR 50.000" />
-          <ItemValue label="Tax 10%" value="IDR 1.800.390" />
+          <ItemValue
+            label="Cherry Healthy"
+            value={transaction.totalPrice}
+            currency
+          />
+          <ItemValue label="Driver" value={transaction.driver} currency />
+          <ItemValue label="Tax 10%" value={transaction.tax} currency />
           <ItemValue
             label="Total Price"
-            value="IDR 390.803.000"
+            value={transaction.total}
             valueColor="#1ABC9C"
+            currency
           />
         </View>
         <View style={styles.contentDeliver}>
           <Text style={styles.label}>Deliver to : </Text>
-          <ItemValue label="Name" value="Angga Risky" />
-          <ItemValue label="Phone No." value="0822 0819 9688" />
-          <ItemValue label="Address" value="Cibubur" />
-          <ItemValue label="House No." value="20A" />
-          <ItemValue label="City" value="Jakarta" />
+          <ItemValue label="Name" value={userProfile.name} />
+          <ItemValue label="Phone No." value={userProfile.phone_number} />
+          <ItemValue label="Address" value={userProfile.address} />
+          <ItemValue label="House No." value={userProfile.house_number} />
+          <ItemValue label="City" value={userProfile.city} />
         </View>
       </ScrollView>
       <View style={styles.buttonContainer(borderTopWidth)}>

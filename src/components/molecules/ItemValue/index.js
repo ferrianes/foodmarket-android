@@ -1,11 +1,16 @@
 import React from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {TextNumber} from '../../atoms';
 
-const ItemValue = ({label, value, valueColor = '#020202'}) => {
+const ItemValue = ({label, value, valueColor = '#020202', currency}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
-      <Text style={styles.value(valueColor)}>{value}</Text>
+      {currency ? (
+        <TextNumber style={styles.value(valueColor)} value={value} />
+      ) : (
+        <Text style={styles.value(valueColor)}>{value}</Text>
+      )}
     </View>
   );
 };
