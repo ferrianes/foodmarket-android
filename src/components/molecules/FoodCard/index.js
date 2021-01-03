@@ -1,16 +1,24 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
+import {
+  Image,
+  StyleSheet,
+  Text,
+  TouchableNativeFeedback,
+  View,
+} from 'react-native';
 import Rating from '../Rating';
 
-const FoodCard = ({image, style, name, rating}) => {
+const FoodCard = ({image, style, name, rating, onPress}) => {
   return (
-    <View style={{...styles.container, ...style}}>
-      <Image style={styles.image} source={image} />
-      <View style={styles.content}>
-        <Text style={styles.title}>{name}</Text>
-        <Rating rating={rating} />
+    <TouchableNativeFeedback useForeground={true} onPress={onPress}>
+      <View style={{...styles.container, ...style}}>
+        <Image style={styles.image} source={image} />
+        <View style={styles.content}>
+          <Text style={styles.title}>{name}</Text>
+          <Rating rating={rating} />
+        </View>
       </View>
-    </View>
+    </TouchableNativeFeedback>
   );
 };
 

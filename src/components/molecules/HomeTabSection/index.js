@@ -5,7 +5,7 @@ import {SceneMap, TabBar, TabView} from 'react-native-tab-view';
 import {useDispatch, useSelector} from 'react-redux';
 import {getFoodData} from '../../../redux/action';
 import ItemListFood from '../ItemListFood';
-import {ItemListFoodLoading} from '..';
+import ItemListFoodLoading from '../ItemListFoodLoading';
 
 const renderTabBar = (props) => (
   <TabBar
@@ -45,7 +45,7 @@ const NewTaste = () => {
             rating={foodNewTasteItem.rate}
             style={tabItemStyles.itemList}
             image={{uri: foodNewTasteItem.picture_path}}
-            onPress={() => navigation.navigate('FoodDetail')}
+            onPress={() => navigation.navigate('FoodDetail', foodNewTasteItem)}
           />
         ))
       )}
@@ -77,7 +77,7 @@ const Popular = () => {
             rating={foodPopularItem.rate}
             style={tabItemStyles.itemList}
             image={{uri: foodPopularItem.picture_path}}
-            onPress={() => navigation.navigate('FoodDetail')}
+            onPress={() => navigation.navigate('FoodDetail', foodPopularItem)}
           />
         ))
       )}
@@ -109,7 +109,9 @@ const Recommended = () => {
             rating={foodRecommendedItem.rate}
             style={tabItemStyles.itemList}
             image={{uri: foodRecommendedItem.picture_path}}
-            onPress={() => navigation.navigate('FoodDetail')}
+            onPress={() =>
+              navigation.navigate('FoodDetail', foodRecommendedItem)
+            }
           />
         ))
       )}

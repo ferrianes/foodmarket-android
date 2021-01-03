@@ -1,7 +1,7 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
-import {currencyFormatter} from '../../../utils';
+import {TextNumber} from '../../atoms';
 import Rating from '../Rating';
 
 const ItemListFood = ({
@@ -23,9 +23,7 @@ const ItemListFood = ({
           <>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{title}</Text>
-              <Text style={styles.item}>
-                {currencyFormatter('en-ID', 'IDR', price)}
-              </Text>
+              <TextNumber value={price} style={styles.item} />
             </View>
             <Rating rating={rating} />
           </>
@@ -35,9 +33,7 @@ const ItemListFood = ({
           <>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{title}</Text>
-              <Text style={styles.item}>
-                {currencyFormatter('en-ID', 'IDR', price)}
-              </Text>
+              <TextNumber value={price} style={styles.item} />
             </View>
             <Text style={styles.item}>{item} items</Text>
           </>
@@ -48,7 +44,7 @@ const ItemListFood = ({
             <View style={styles.textContainer}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.item}>
-                {item} items • {currencyFormatter('en-ID', 'IDR', price)}
+                {item} items • <TextNumber value={price} />
               </Text>
             </View>
           </>
@@ -59,7 +55,7 @@ const ItemListFood = ({
             <View style={styles.textContainer}>
               <Text style={styles.title}>{title}</Text>
               <Text style={styles.item}>
-                {item} items • {currencyFormatter('en-ID', 'IDR', price)}
+                {item} items • <TextNumber value={price} />
               </Text>
             </View>
             <View>
@@ -73,9 +69,7 @@ const ItemListFood = ({
           <>
             <View style={styles.textContainer}>
               <Text style={styles.title}>{title}</Text>
-              <Text style={styles.item}>
-                {currencyFormatter('en-ID', 'IDR', price)}
-              </Text>
+              <TextNumber value={price} style={styles.item} />
             </View>
             <Rating rating={rating} />
           </>

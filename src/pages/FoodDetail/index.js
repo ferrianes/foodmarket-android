@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   ImageBackground,
   ScrollView,
@@ -7,14 +7,29 @@ import {
   View,
 } from 'react-native';
 import {TouchableNativeFeedback} from 'react-native-gesture-handler';
-import {FoodDummy6, IcBackWhite} from '../../assets';
-import {Button, Counter, Rating} from '../../components';
+import {IcBackWhite} from '../../assets';
+import {Button, Counter, Rating, TextNumber} from '../../components';
 
-const FoodDetail = ({navigation}) => {
+const FoodDetail = ({navigation, route}) => {
+  const {
+    name,
+    picture_path,
+    description,
+    rate,
+    ingredients,
+    price,
+  } = route.params;
+  const [totalItem, setTotalItem] = useState(1);
+
+  const onCounterChange = (value) => {
+    console.log({counter: value});
+    setTotalItem(value);
+  };
+
   return (
     <View style={styles.page}>
       <ScrollView>
-        <ImageBackground source={FoodDummy6} style={styles.cover}>
+        <ImageBackground source={{uri: picture_path}} style={styles.cover}>
           <View style={styles.buttonContainer}>
             <TouchableNativeFeedback
               onPress={() => navigation.goBack()}
@@ -26,22 +41,20 @@ const FoodDetail = ({navigation}) => {
         <View style={styles.content}>
           <View style={styles.productContainer}>
             <View>
-              <Text style={styles.title}>Cherry Healthy</Text>
-              <Rating />
+              <Text style={styles.title}>{name}</Text>
+              <Rating rating={rate} />
             </View>
-            <Counter />
+            <Counter onValueChange={onCounterChange} />
           </View>
-          <Text style={styles.desc}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Odio nihil
-          </Text>
+          <Text style={styles.desc}>{description}</Text>
           <Text style={styles.label}>Ingredients : </Text>
-          <Text style={styles.desc}>Seledri, Telur, Blueberry, Madu</Text>
+          <Text style={styles.desc}>{ingredients}</Text>
         </View>
       </ScrollView>
       <View style={styles.footerContent}>
         <View style={styles.priceContainer}>
           <Text style={styles.labelTotal}>Total Price</Text>
-          <Text style={styles.priceTotal}>IDR 12.200.000</Text>
+          <TextNumber value={totalItem * price} style={styles.priceTotal} />
         </View>
         <View style={styles.buttonPriceContainer}>
           <Button

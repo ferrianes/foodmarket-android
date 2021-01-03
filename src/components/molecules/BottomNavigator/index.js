@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  ToastAndroid,
-  TouchableNativeFeedback,
-  Vibration,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableNativeFeedback, View} from 'react-native';
 import {
   IcHomeOff,
   IcHomeOn,
@@ -65,8 +59,6 @@ const BottomNavigator = ({state, descriptors, navigation}) => {
             type: 'tabLongPress',
             target: route.key,
           });
-
-          Vibration.vibrate(200);
         };
 
         return (
