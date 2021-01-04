@@ -13,6 +13,7 @@ import {getData} from '../../utils';
 
 const FoodDetail = ({navigation, route}) => {
   const {
+    id,
     name,
     picture_path,
     description,
@@ -38,6 +39,7 @@ const FoodDetail = ({navigation, route}) => {
     const total = totalPrice + driver + tax;
     const data = {
       item: {
+        id,
         name,
         picture_path,
         price,
